@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>SETIA Sentimen Analysis</title>
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='https://unicons.iconscout.com/release/v3.0.6/css/line.css'><link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+  <link rel="icon" href="{{url_for('static', filename='img/logo.png')}}" type="image/png">
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<aside class="sidebar position-fixed top-0 left-0 overflow-auto h-100 float-left" id="show-side-navigation1">
+  <i class="uil-bars close-aside d-md-none d-lg-none" data-close="show-side-navigation1"></i>
+  <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
+    <img
+         class="img-fluid"
+         width="200"
+         src="{{url_for('static', filename='img/logo3.png')}}"
+         alt="Logo">
+  </div>
+
+  <ul class="categories list-unstyled">
+    <li class="">
+      <i class="uil-estate fa-fw"></i><a href="{{url_for('home')}}"> Dashboard</a>
+    </li>
+    <li class="">
+      <i class="uil-database fa-fw"></i><a href="{{url_for('Data_Reviews_GMaps')}}"> Data Reviews GMaps</a>
+    </li>
+    <li class="has-dropdown">
+      <i class="uil-process"></i><a href="#"> Pre-Processing</a>
+      <ul class="sidebar-dropdown list-unstyled">
+        <li class="d-flex align-items-center">
+          <i class="uil-text me-2"></i>
+          <a href="{{url_for('case_folding')}}">Case Folding</a>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="uil-trash-alt me-2"></i>
+          <a href="{{url_for('data_cleaning')}}">Data Cleaning</a>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="uil-sliders-v-alt me-2"></i>
+          <a href="{{url_for('normalization')}}">Normalization</a>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="uil-paragraph me-2"></i>
+          <a href="{{url_for('tokenizing')}}">Tokenizing</a>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="uil-filter me-2"></i>
+          <a href="{{url_for('filtering')}}">Filtering</a>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="uil-pen me-2"></i>
+          <a href="{{url_for('stemming')}}">Stemming</a>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="uil-chart-line me-2"></i>
+          <a href="{{url_for('representasi')}}">Representasi</a>
+        </li>
+      </ul>
+    </li>
+    <li class="">
+      <i class="uil-panel-add"  style="color: #ffc107;"></i><a href="{{url_for('sentimen_analysis')}}"  style="color: #ffc107;"> Sentimen Analysis</a>
+    </li>
+    <li class="">
+      <i class="uil-panel-add"></i><a href="{{url_for('topic_analysis')}}"> Topic Analysis</a>
+    </li>
+    <li class="">
+      <i class="uil-comment-alt-chart-lines fa-fw"></i><a href="{{url_for('Sentimen_Topic_Tools')}}"> Sentimen Topic Tools</a>
+    </li>
+  </ul>
+</aside>
+
+<section id="wrapper">
+  <nav class="navbar navbar-expand-md">
+    <div class="container-fluid mx-2">
+      <div class="navbar-header">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggle-navbar" aria-controls="toggle-navbar" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="uil-bars text-white"></i>
+        </button>
+        <a class="navbar-brand" href="#">
+          <strong>SETIA </strong><span class="main-color"><strong>(Sentiment and Topic Insights Analysis)</strong></span>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="toggle-navbar">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i data-show="show-side-navigation1" class="uil-bars show-side-btn"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="p-4">
+    <div class="welcome">
+      <div class="content rounded-3 p-3">
+        <h1 class="fs-3">Sentiment Insight Explorer at RSU Queen Latifa KulonProgo</h1>
+        <p class="mb-0">Analyzing Patient Sentiment with Support Vector Machine</p>
+      </div>
+    </div>
+    <section class="statistics mt-4">
+      <div class="row">
+        <div class="col-lg-6">
+          <a href="{{ url_for('SA_RSU_QL_Yogyakarta') }}" class="btn btn-primary w-100 text-start d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
+            <i class="uil-hospital fs-2 text-center bg-primary rounded-circle me-2" style="width: 60px; height: 60px; line-height: 60px;"></i>
+            <div class="ms-3">
+              <div class="d-flex align-items-center">
+                <h3 class="mb-0">RSU Queen Latifa</h3> <span class="d-block ms-2">Yogyakarta</span>
+              </div>
+              <p class="fs-normal mb-0">Jl. Ringroad Barat No.118, Mlangi, Nogotirto, Gamping, Sleman, DIY</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-lg-6">
+          <a href="{{ url_for('SA_RSU_QL_KulonProgo') }}" class="btn btn-success w-100 text-start d-flex rounded-2 align-items-center p-3">
+            <i class="uil-hospital fs-2 text-center bg-success rounded-circle me-2" style="width: 60px; height: 60px; line-height: 60px;"></i>
+            <div class="ms-3">
+              <div class="d-flex align-items-center">
+                <h3 class="mb-0">RSU Queen Latifa</h3> <span class="d-block ms-2">KulonProgo</span>
+              </div>
+              <p class="fs-normal mb-0">Jl. Yogyakarta-Wates No.KM 21, Sukoreno, Sentolo, KulonProgo, DIY</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="charts mt-4">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="chart-container rounded-2 p-3">
+            <h3 class="fs-6 mb-3">Positive Sentiment Highlights</h3>
+
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="chart-container rounded-2 p-3">
+            <h3 class="fs-6 mb-3">Negative Sentiment Highlights</h3>
+
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="charts mt-4 text-center">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="chart-container rounded-2 p-3">
+            <h3>99,6%</h3>
+            <p class="lead" style=color:white>Accuracy Train</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="chart-container rounded-2 p-3">
+            <h3>94,5%</h3>
+            <p class="lead" style=color:white>Accuracy Test</p>
+
+          </div>
+        </div>
+      </div>
+    </section>    
+    
+    <section class="statis mt-4 text-center">
+      <div class="row">
+        <!-- Pie Chart 1 -->
+        <div class="col-md-6 mb-4">
+          <h5 class="text-center">Sentiment Real</h5>
+          <canvas id="sentimentRealChart" style="max-width: 300px; margin: 0 auto;"></canvas>
+        </div>
+    
+        <!-- Pie Chart 2 -->
+        <div class="col-md-6 mb-4">
+          <h5 class="text-center">Sentiment Predicted</h5>
+          <canvas id="sentimentPredictedChart" style="max-width: 300px; margin: 0 auto;"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="charts mt-4">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="chart-container rounded-2 p-3">
+            <h3 class="fs-6 mb-3">Wordcloud Positive Sentiment</h3>
+            <div class="tag-cloud">
+              {% for word in word_freq_pos %}
+                <div class="tag tag-{{ loop.index }}">{{ word['Word'] }}</div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="chart-container rounded-2 p-3">
+            <h3 class="fs-6 mb-3">Wordcloud Negative Sentiment</h3>
+            <div class="tag-cloud">
+              {% for word in word_freq_neg %}
+                <div class="tag tag-{{ loop.index }}">{{ word['Word'] }}</div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="statis mt-4 text-center">
+      <div class="row">
+        <div class="col-12 mb-4">
+          <div class="box bg-info p-3">
+            <h3>Data Sentimen Explorer</h3>
+            <p class="lead" style="color: #f8f9fa; font-size: 14px;">Eksplorasi Data Sentimen RSU Queen Latifa KulonProgo menggunakan Algoritma Support Vector Machine untuk memahami opini dan persepsi pasien atau pengguna layanan di RSU Queen Latifa KulonProgo melalui ulasan yang diberikan.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    
+
+    <section class="charts mt-4">
+      <div class="chart-container p-3">
+        <h3 class="fs-6 mb-3"> Sentimen Explorer</h3>
+        <div class="filters mb-4">
+          <div class="row">
+            <!-- Filter by Location -->
+            <div class="col-md-6">
+              <label for="sentimenFilter">Filter by Sentimen</label>
+              <select id="sentimenFilter" class="form-select" onchange="applyFilter()">
+                <option value="all" {% if sentimen_filter == 'all' %}selected{% endif %}>All Sentimen</option>
+                <option value="Positif" {% if sentimen_filter == 'Positif' %}selected{% endif %}>Positif</option>
+                <option value="Negatif" {% if sentimen_filter == 'Negatif' %}selected{% endif %}>Negatif</option>
+            </select>
+            </div>
+    
+            <!-- Filter by Rating -->
+            <div class="col-md-6">
+              <label for="predictFilter">Filter by Prediction</label>
+              <select id="predictFilter" class="form-select" onchange="applyFilter()">
+                <option value="all" {% if predict_filter == 'all' %}selected{% endif %}>All Prediction</option>
+                <option value="Positif" {% if predict_filter == 'Positif' %}selected{% endif %}>Positif</option>
+                <option value="Negatif" {% if predict_filter == 'Negatif' %}selected{% endif %}>Negatif</option>
+            </select>
+            </div>
+          </div>
+        </div>
+
+        <table class="table table-bordered table-dark mt-4">
+          <thead>
+              <tr>
+                  <th>No</th>
+                  <th>Review</th>
+                  <th>Sentimen</th>
+                  <th>Prediction</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for review in reviews %}
+                  <tr>
+                      <td>{{ loop.index + (page - 1) * 10 }}</td>
+                      <td>{{ review.text_lemmatized }}</td>
+                      <td>{{ review.sentimen }}</td>
+                      <td>{{ review.Predicted_Label }}</td>
+                  </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item {% if page == 1 %}disabled{% endif %}">
+                <a class="page-link" 
+                   href="{{ url_for('SA_RSU_QL_Yogyakarta', page=page-1, sentimenFilter=request.args.get('sentimenFilter', 'all'), predictFilter=request.args.get('predictFilter', 'all')) }}" 
+                   aria-label="Previous">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+            </li>
+    
+            {% for p in page_range %}
+                <li class="page-item {% if p == page %}active{% endif %}">
+                    <a class="page-link" 
+                       href="{{ url_for('SA_RSU_QL_Yogyakarta', page=p, sentimenFilter=request.args.get('sentimenFilter', 'all'), predictFilter=request.args.get('predictFilter', 'all')) }}">
+                        {{ p }}
+                    </a>
+                </li>
+            {% endfor %}
+    
+            <li class="page-item {% if page == total_pages %}disabled{% endif %}">
+                <a class="page-link" 
+                   href="{{ url_for('SA_RSU_QL_Yogyakarta', page=page+1, sentimenFilter=request.args.get('sentimenFilter', 'all'), predictFilter=request.args.get('predictFilter', 'all')) }}" 
+                   aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+      </div>
+    </section>
+  </div>
+</section>
+<!-- partial -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.jshttps://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js'></script><script  src="./script.js"></script>
+<script src="{{url_for('static', filename='/js/script.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+<script>
+function applyFilter() {
+    const sentimen = document.getElementById('sentimenFilter').value;
+    const predict = document.getElementById('predictFilter').value;
+    const url = new URL(window.location.href); 
+    url.searchParams.set('sentimenFilter', sentimen);
+    url.searchParams.set('predictFilter', predict); 
+    url.searchParams.set('page', 1); 
+    window.location.href = url.toString(); 
+}
+  // Data untuk pie chart 1 (Sentiment Real)
+  const dataSentimentReal = {
+    labels: ['Positive', 'Negative'],
+    datasets: [{
+      label: 'Sentiment Real',
+      data: [{{ count_sentimen_positif }}, {{ count_sentimen_negatif }}], // Ganti dengan data dinamis
+      backgroundColor: ['#28a745', '#dc3545'],
+      borderColor: ['#28a745', '#dc3545'],
+      borderWidth: 1
+    }]
+  };
+
+  // Data untuk pie chart 2 (Sentiment Predicted)
+  const dataSentimentPredicted = {
+    labels: ['Positive', 'Negative'],
+    datasets: [{
+      label: 'Sentiment Predicted',
+      data: [{{ count_prediction_positif }}, {{ count_prediction_negatif }}], // Ganti dengan data dinamis
+      backgroundColor: ['#28a745', '#dc3545'],
+      borderColor: ['#28a745', '#dc3545'],
+      borderWidth: 1
+    }]
+  };
+
+  // Konfigurasi Pie Chart 1
+  const configSentimentReal = {
+    type: 'pie',
+    data: dataSentimentReal,
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top'
+        },
+        datalabels: {
+          color: '#fff',
+          font: {
+            weight: 'bold'
+          },
+          formatter: (value, context) => {
+            const total = context.dataset.data.reduce((acc, cur) => acc + cur, 0);
+            const percentage = ((value / total) * 100).toFixed(2);
+            return `${percentage}%`;
+          }
+        }
+      }
+    },
+    plugins: [ChartDataLabels]
+  };
+
+  // Konfigurasi Pie Chart 2
+  const configSentimentPredicted = {
+    type: 'pie',
+    data: dataSentimentPredicted,
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top'
+        },
+        datalabels: {
+          color: '#fff',
+          font: {
+            weight: 'bold'
+          },
+          formatter: (value, context) => {
+            const total = context.dataset.data.reduce((acc, cur) => acc + cur, 0);
+            const percentage = ((value / total) * 100).toFixed(2);
+            return `${percentage}%`;
+          }
+        }
+      }
+    },
+    plugins: [ChartDataLabels]
+  };
+
+  // Render Pie Chart 1
+  const ctxReal = document.getElementById('sentimentRealChart').getContext('2d');
+  new Chart(ctxReal, configSentimentReal);
+
+  // Render Pie Chart 2
+  const ctxPredicted = document.getElementById('sentimentPredictedChart').getContext('2d');
+  new Chart(ctxPredicted, configSentimentPredicted);
+</script>
+</body>
+</html>

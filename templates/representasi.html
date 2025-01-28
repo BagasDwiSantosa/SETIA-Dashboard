@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>SETIA Data</title>
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='https://unicons.iconscout.com/release/v3.0.6/css/line.css'><link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+  <link rel="icon" href="{{url_for('static', filename='img/logo.png')}}" type="image/png">
+  <style>
+    .hidden {
+        display: none;
+    }
+    .ellipsis {
+        cursor: pointer;
+        color: blue;
+        text-decoration: underline;
+    }
+</style>
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<aside class="sidebar position-fixed top-0 left-0 overflow-auto h-100 float-left" id="show-side-navigation1">
+  <i class="uil-bars close-aside d-md-none d-lg-none" data-close="show-side-navigation1"></i>
+  <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
+    <img
+         class="img-fluid"
+         width="200"
+         src="{{url_for('static', filename='img/logo3.png')}}"
+         alt="Logo">
+  </div>
+
+  <ul class="categories list-unstyled">
+    <li class="">
+      <i class="uil-estate fa-fw"></i><a href="{{url_for('home')}}"> Dashboard</a>
+    </li>
+    <li class="">
+      <i class="uil-database fa-fw"></i><a href="{{url_for('Data_Reviews_GMaps')}}"> Data Reviews GMaps</a>
+    </li>
+    <li class="has-dropdown">
+      <i class="uil-process"></i><a href="#"> Pre-Processing</a>
+      <ul class="sidebar-dropdown list-unstyled">
+        <li class="d-flex align-items-center">
+          <i class="uil-text me-2" ></i>
+          <a href="{{url_for('case_folding')}}" >Case Folding</a>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="uil-trash-alt me-2"></i>
+          <a href="{{url_for('data_cleaning')}}">Data Cleaning</a>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="uil-sliders-v-alt me-2"></i>
+          <a href="{{url_for('normalization')}}">Normalization</a>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="uil-paragraph me-2"></i>
+          <a href="{{url_for('tokenizing')}}">Tokenizing</a>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="uil-filter me-2"></i>
+          <a href="{{url_for('filtering')}}">Filtering</a>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="uil-pen me-2"></i>
+          <a href="{{url_for('stemming')}}">Stemming</a>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="uil-chart-line me-2" style="color: #ffc107;"></i>
+          <a href="{{url_for('representasi')}}" style="color: #ffc107;">Representasi</a>
+        </li>
+      </ul>
+    </li>
+    <li class="">
+      <i class="uil-panel-add"></i><a href="{{url_for('sentimen_analysis')}}"> Sentimen Analysis</a>
+    </li>
+    <li class="">
+      <i class="uil-panel-add"></i><a href="{{url_for('topic_analysis')}}"> Topic Analysis</a>
+    </li>
+    <li class="">
+      <i class="uil-comment-alt-chart-lines fa-fw"></i><a href="{{url_for('Sentimen_Topic_Tools')}}"> Sentimen Topic Tools</a>
+    </li>
+  </ul>
+</aside>
+
+<section id="wrapper">
+  <nav class="navbar navbar-expand-md">
+    <div class="container-fluid mx-2">
+      <div class="navbar-header">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggle-navbar" aria-controls="toggle-navbar" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="uil-bars text-white"></i>
+        </button>
+        <a class="navbar-brand" href="#">
+          <strong>SETIA </strong><span class="main-color"><strong>(Sentiment and Topic Insights Analysis)</strong></span>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="toggle-navbar">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i data-show="show-side-navigation1" class="uil-bars show-side-btn"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="p-4">
+    <div class="welcome">
+      <div class="content rounded-3 p-3">
+        <h1 class="fs-3">Vector Representation with TF-IDF Preprocessing</h1>
+        <p class="mb-0">Vector representation with TF-IDF (Term Frequency-Inverse Document Frequency) is a technique used to convert text into numerical vector form. This technique measures the importance of a word in a document relative to the collection of documents. TF-IDF helps to highlight the most relevant words in the text by considering both the frequency of the word in the document (TF) and how rare the word is across the entire corpus (IDF), thereby enhancing the quality of text analysis.</p>        
+      </div>
+    </div>
+
+    <section class="charts mt-4">
+      <div class="container">
+        <div class="filters mb-4">
+          <div class="row">
+            <!-- Filter by Location -->
+            <div class="col-md-12">
+              <label for="locationFilter">Filter by Location</label>
+              <select id="locationFilter" class="form-select" onchange="applyFilter()">
+                  <option value="all" {% if location_filter == 'all' %}selected{% endif %}>All Locations</option>
+                  <option value="yogyakarta" {% if location_filter == 'yogyakarta' %}selected{% endif %}>RSU Queen Latifa Yogyakarta</option>
+                  <option value="kulonprogo" {% if location_filter == 'kulonprogo' %}selected{% endif %}>RSU Queen Latifa Kulon Progo</option>
+              </select>
+            </div>
+
+            <table class="table table-bordered table-dark mt-4">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Representasi Vektor (TF-IDF)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for review in reviews %}
+                        <tr>
+                            <td>{{ loop.index + (page - 1) * 10 }}</td>
+                            <td>
+                                <span>
+                                    {{ review.tfidf[:170] }}{% if review.tfidf|length > 100 %}<span class="ellipsis" onclick="toggleVisibility('full{{ loop.index }}')">...</span>{% endif %}
+                                </span>
+                                <span id="full{{ loop.index }}" class="hidden">{{ review.tfidf }}</span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <!-- Tombol Previous -->
+            <li class="page-item {% if page == 1 %}disabled{% endif %}">
+                <a class="page-link" 
+                   href="{{ url_for('representasi', page=page-1, locationFilter=request.args.get('locationFilter', 'all'), ratingFilter=request.args.get('ratingFilter', 'all')) }}" 
+                   aria-label="Previous">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+            </li>
+    
+            <!-- Menampilkan beberapa angka halaman -->
+            {% for p in page_range %}
+                <li class="page-item {% if p == page %}active{% endif %}">
+                    <a class="page-link" 
+                       href="{{ url_for('representasi', page=p, locationFilter=request.args.get('locationFilter', 'all'), ratingFilter=request.args.get('ratingFilter', 'all')) }}">
+                        {{ p }}
+                    </a>
+                </li>
+            {% endfor %}
+    
+            <!-- Tombol Next -->
+            <li class="page-item {% if page == total_pages %}disabled{% endif %}">
+                <a class="page-link" 
+                   href="{{ url_for('representasi', page=page+1, locationFilter=request.args.get('locationFilter', 'all'), ratingFilter=request.args.get('ratingFilter', 'all')) }}" 
+                   aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+
+  </div>
+</section>
+<!-- partial -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.jshttps://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js'></script><script  src="./script.js"></script>
+<script src="{{url_for('static', filename='/js/script.js')}}"></script>
+<script>
+function applyFilter() {
+    const location = document.getElementById('locationFilter').value;
+    const url = new URL(window.location.href);
+    url.searchParams.set('locationFilter', location);
+    url.searchParams.set('page', 1); // Reset ke halaman 1 saat filter diterapkan
+    window.location.href = url.toString();
+}
+function toggleVisibility(id) {
+                    const element = document.getElementById(id);
+                    if (element.classList.contains('hidden')) {
+                        element.classList.remove('hidden');
+                    } else {
+                        element.classList.add('hidden');
+                    }
+                }
+</script>
+
+</body>
+</html>

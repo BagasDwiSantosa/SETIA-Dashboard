@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>SETIA Topic Analysis</title>
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css'>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel='stylesheet' href='https://unicons.iconscout.com/release/v3.0.6/css/line.css'><link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+  <link rel="icon" href="{{url_for('static', filename='img/logo.png')}}" type="image/png">
+  <style>
+    /* Mengubah warna teks di <th> dan <td> menjadi putih */
+    th, td {
+      color: white;
+    }
+    p {
+      color: white;
+    }
+
+  .iframe-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%; /* Menjaga agar iframe tidak melebihi ukuran kontainer */
+    height: 0;
+    padding-bottom: 56.25%; /* Menyimpan aspek rasio 16:9 (bisa diubah jika diperlukan) */
+  }
+  
+  iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .accordion-button::after {
+            color: white !important; /* Mengubah warna ikon panah menjadi putih */
+        }
+        .accordion .accordion-button {
+            background-color: #2a2b3d !important; /* Transparan gelap */
+            color: white !important; /* Teks putih */
+            border: none !important; /* Hilangkan border */
+            box-shadow: none !important; /* Hilangkan bayangan */
+        }
+        .accordion .accordion-button:not(.collapsed) {
+            background-color: #1f1f2e !important; /* Warna lebih gelap saat aktif */
+            color: white !important;
+        }
+        .accordion-body {
+            background-color: #2a2b3d !important; /* Transparan untuk body */
+            color: white !important; /* Teks putih */
+        }
+        .accordion-item {
+            background-color: transparent !important; /* Transparan untuk item */
+            border: none !important; /* Hilangkan border */
+        }
+        .chart-container {
+            background-color: rgba(0, 0, 0, 0.5); /* Transparansi container */
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h3 {
+            color: white !important;
+        }
+  </style>
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<aside class="sidebar position-fixed top-0 left-0 overflow-auto h-100 float-left" id="show-side-navigation1">
+  <i class="uil-bars close-aside d-md-none d-lg-none" data-close="show-side-navigation1"></i>
+  <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
+    <img
+         class="img-fluid"
+         width="200"
+         src="{{url_for('static', filename='img/logo3.png')}}"
+         alt="Logo">
+  </div>
+
+  <ul class="categories list-unstyled">
+    <li class="">
+      <i class="uil-estate fa-fw"></i><a href="{{url_for('home')}}"> Dashboard</a>
+    </li>
+    <li class="">
+      <i class="uil-database fa-fw"></i><a href="{{url_for('Data_Reviews_GMaps')}}"> Data Reviews GMaps</a>
+    </li>
+    <li class="has-dropdown">
+      <i class="uil-process"></i><a href="#"> Pre-Processing</a>
+      <ul class="sidebar-dropdown list-unstyled">
+        <li class="d-flex align-items-center">
+          <i class="uil-text me-2"></i>
+          <a href="{{url_for('case_folding')}}">Case Folding</a>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="uil-trash-alt me-2"></i>
+          <a href="{{url_for('data_cleaning')}}">Data Cleaning</a>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="uil-sliders-v-alt me-2"></i>
+          <a href="{{url_for('normalization')}}">Normalization</a>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="uil-paragraph me-2"></i>
+          <a href="{{url_for('tokenizing')}}">Tokenizing</a>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="uil-filter me-2"></i>
+          <a href="{{url_for('filtering')}}">Filtering</a>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="uil-pen me-2"></i>
+          <a href="{{url_for('stemming')}}">Stemming</a>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="uil-chart-line me-2"></i>
+          <a href="{{url_for('representasi')}}">Representasi</a>
+        </li>
+      </ul>
+    </li>
+    <li class="">
+      <i class="uil-panel-add"></i><a href="{{url_for('sentimen_analysis')}}"> Sentimen Analysis</a>
+    </li>
+    <li class="">
+      <i class="uil-panel-add"  style="color: #ffc107;"></i><a href="{{url_for('topic_analysis')}}"  style="color: #ffc107;"> Topic Analysis</a>
+    </li>
+    <li class="">
+      <i class="uil-comment-alt-chart-lines fa-fw"></i><a href="{{url_for('Sentimen_Topic_Tools')}}"> Sentimen Topic Tools</a>
+    </li>
+  </ul>
+</aside>
+
+<section id="wrapper">
+  <nav class="navbar navbar-expand-md">
+    <div class="container-fluid mx-2">
+      <div class="navbar-header">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggle-navbar" aria-controls="toggle-navbar" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="uil-bars text-white"></i>
+        </button>
+        <a class="navbar-brand" href="#">
+          <strong>SETIA </strong><span class="main-color"><strong>(Sentiment and Topic Insights Analysis)</strong></span>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="toggle-navbar">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i data-show="show-side-navigation1" class="uil-bars show-side-btn"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="p-4">
+    <div class="welcome">
+      <div class="content rounded-3 p-3">
+        <h1 class="fs-3">Topic Insight Explorer at RSU Queen Latifa Yogyakarta</h1>
+        <p class="mb-0">Unveiling Key Discussion Topics with LDA Analysis</p>
+      </div>
+    </div>
+
+    <section class="statistics mt-4">
+      <div class="row">
+        <div class="col-lg-6">
+          <a href="{{ url_for('TA_RSU_QL_Yogyakarta') }}" class="btn btn-primary w-100 text-start d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
+            <i class="uil-hospital fs-2 text-center bg-primary rounded-circle me-2" style="width: 60px; height: 60px; line-height: 60px;"></i>
+            <div class="ms-3">
+              <div class="d-flex align-items-center">
+                <h3 class="mb-0">RSU Queen Latifa</h3> <span class="d-block ms-2">Yogyakarta</span>
+              </div>
+              <p class="fs-normal mb-0">Jl. Ringroad Barat No.118, Mlangi, Nogotirto, Gamping, Sleman, DIY</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-lg-6">
+          <a href="{{ url_for('TA_RSU_QL_KulonProgo') }}" class="btn btn-success w-100 text-start d-flex rounded-2 align-items-center p-3">
+            <i class="uil-hospital fs-2 text-center bg-success rounded-circle me-2" style="width: 60px; height: 60px; line-height: 60px;"></i>
+            <div class="ms-3">
+              <div class="d-flex align-items-center">
+                <h3 class="mb-0">RSU Queen Latifa</h3> <span class="d-block ms-2">KulonProgo</span>
+              </div>
+              <p class="fs-normal mb-0">Jl. Yogyakarta-Wates No.KM 21, Sukoreno, Sentolo, KulonProgo, DIY</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="charts mt-4">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="chart-container rounded-2 p-3">
+            <h3 class="fs-6 mb-3 text-white">Positive Topic Highlights</h3>
+            <div class="accordion" id="positiveTopics">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="positiveTopic1Header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#positiveTopic1" aria-expanded="false" aria-controls="positiveTopic1">
+                    Topic 1
+                  </button>
+                </h2>
+                <div id="positiveTopic1" class="accordion-collapse collapse" aria-labelledby="positiveTopic1Header" data-bs-parent="#positiveTopics">
+                  <div class="accordion-body">
+                    Fokus pada pelayanan yang ramah dan baik, dengan kecepatan layanan yang memuaskan. Kata-kata seperti "ramah," "cepat," dan "puas" menunjukkan apresiasi terhadap keramahan tenaga medis dan efisiensi pelayanan.
+                    <br><strong>Insight:</strong> Tenaga medis yang ramah menjadi daya tarik utama.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item"  style="margin-bottom: 208px;">
+                <h2 class="accordion-header" id="positiveTopic2Header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#positiveTopic2" aria-expanded="false" aria-controls="positiveTopic2">
+                    Topic 2
+                  </button>
+                </h2>
+                <div id="positiveTopic2" class="accordion-collapse collapse" aria-labelledby="positiveTopic2Header" data-bs-parent="#positiveTopics">
+                  <div class="accordion-body">
+                    Ulasan positif secara umum terhadap rumah sakit, mencakup fasilitas yang baik dan pelayanan yang menyenangkan. Kata-kata seperti "ramah" dan "bagus" mendukung persepsi profesionalitas rumah sakit.
+                    <br><strong>Insight:</strong> Citra positif RSU dipengaruhi oleh pelayanan secara keseluruhan.
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="chart-container rounded-2 p-3">
+            <h3 class="fs-6 mb-3 text-white">Negative Topic Highlights</h3>
+            <div class="accordion" id="negativeTopics">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="negativeTopic1Header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#negativeTopic1" aria-expanded="false" aria-controls="negativeTopic1">
+                    Topic 1
+                  </button>
+                </h2>
+                <div id="negativeTopic1" class="accordion-collapse collapse" aria-labelledby="negativeTopic1Header" data-bs-parent="#negativeTopics">
+                  <div class="accordion-body">
+                    Keluhan terkait waktu tunggu yang lama dan antrian untuk layanan dokter maupun obat. Kata-kata seperti "antri," "tunggu," dan "obat" menjadi indikasi masalah utama.
+                    <br><strong>Insight:</strong> Proses antrian perlu ditingkatkan untuk meminimalkan waktu tunggu pasien.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="negativeTopic2Header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#negativeTopic2" aria-expanded="false" aria-controls="negativeTopic2">
+                    Topic 2
+                  </button>
+                </h2>
+                <div id="negativeTopic2" class="accordion-collapse collapse" aria-labelledby="negativeTopic2Header" data-bs-parent="#negativeTopics">
+                  <div class="accordion-body">
+                    Keluhan terkait waktu tunggu yang lama dan antrian untuk layanan dokter maupun obat. Kata-kata seperti "antri," "tunggu," dan "obat" menjadi indikasi masalah utama.
+                    <br><strong>Insight:</strong> Proses antrian perlu ditingkatkan untuk meminimalkan waktu tunggu pasien.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="negativeTopic3Header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#negativeTopic3" aria-expanded="false" aria-controls="negativeTopic3">
+                    Topic 3
+                  </button>
+                </h2>
+                <div id="negativeTopic3" class="accordion-collapse collapse" aria-labelledby="negativeTopic3Header" data-bs-parent="#negativeTopics">
+                  <div class="accordion-body">
+                    Keluhan terkait waktu tunggu yang lama dan antrian untuk layanan dokter maupun obat. Kata-kata seperti "antri," "tunggu," dan "obat" menjadi indikasi masalah utama.
+                    <br><strong>Insight:</strong> Proses antrian perlu ditingkatkan untuk meminimalkan waktu tunggu pasien.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="negativeTopic4Header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#negativeTopic4" aria-expanded="false" aria-controls="negativeTopic4">
+                    Topic 4
+                  </button>
+                </h2>
+                <div id="negativeTopic4" class="accordion-collapse collapse" aria-labelledby="negativeTopic4Header" data-bs-parent="#negativeTopics">
+                  <div class="accordion-body">
+                    Keluhan terkait waktu tunggu yang lama dan antrian untuk layanan dokter maupun obat. Kata-kata seperti "antri," "tunggu," dan "obat" menjadi indikasi masalah utama.
+                    <br><strong>Insight:</strong> Proses antrian perlu ditingkatkan untuk meminimalkan waktu tunggu pasien.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="negativeTopic5Header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#negativeTopic5" aria-expanded="false" aria-controls="negativeTopic5">
+                    Topic 5
+                  </button>
+                </h2>
+                <div id="negativeTopic5" class="accordion-collapse collapse" aria-labelledby="negativeTopic5Header" data-bs-parent="#negativeTopics">
+                  <div class="accordion-body">
+                    Keluhan terkait waktu tunggu yang lama dan antrian untuk layanan dokter maupun obat. Kata-kata seperti "antri," "tunggu," dan "obat" menjadi indikasi masalah utama.
+                    <br><strong>Insight:</strong> Proses antrian perlu ditingkatkan untuk meminimalkan waktu tunggu pasien.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="negativeTopic6Header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#negativeTopic6" aria-expanded="false" aria-controls="negativeTopic6">
+                    Topic 6
+                  </button>
+                </h2>
+                <div id="negativeTopic6" class="accordion-collapse collapse" aria-labelledby="negativeTopic1Header" data-bs-parent="#negativeTopics">
+                  <div class="accordion-body">
+                    Keluhan terkait waktu tunggu yang lama dan antrian untuk layanan dokter maupun obat. Kata-kata seperti "antri," "tunggu," dan "obat" menjadi indikasi masalah utama.
+                    <br><strong>Insight:</strong> Proses antrian perlu ditingkatkan untuk meminimalkan waktu tunggu pasien.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="charts mt-4">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="chart-container rounded-2 p-3">
+            <h3 class="fs-6 mb-3">Coherence Score - Positive</h3>
+            <canvas id="coherenceChartPositive"></canvas>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="chart-container rounded-2 p-3">
+            <h3 class="fs-6 mb-3">Coherence Score - Negative</h3>
+            <canvas id="coherenceChartNegative"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="charts mt-4">
+      <div class="row">
+        <!-- Tabel untuk Positive Topic Highlights -->
+        <div class="col-lg-6">
+          <div class="chart-container rounded-2 p-3">
+            <h3 class="fs-6 mb-3">Positive Words Topic</h3>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Topik</th>
+                  <th>Kata-kata Utama</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Topik 1</td>
+                  <td>0.070*"layan" + 0.046*"ramah" + 0.034*"sangat" + 0.029*"baik" + 0.025*"latifa" + 0.024*"queen" + 0.023*"dokter" + 0.022*"puas" + 0.015*"cepat" + 0.015*"bagus"</td>
+                </tr>
+                <tr>
+                  <td>Topik 2</td>
+                  <td>0.031*"layan" + 0.021*"rs" + 0.019*"rumah" + 0.019*"sakit" + 0.018*"ramah" + 0.017*"baik" + 0.016*"queen" + 0.016*"sangat" + 0.015*"latifa" + 0.014*"bagus"</td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+          </div>
+        </div>
+        
+        <!-- Tabel untuk Negative Topic Highlights -->
+        <div class="col-lg-6">
+          <div class="chart-container rounded-2 p-3">
+            <h3 class="fs-6 mb-3">Negative Words Topic</h3>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Topik</th>
+                  <th>Kata-kata Utama</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Topik 1</td>
+                  <td>0.018*"dokter" + 0.018*"pasien" + 0.017*"obat" + 0.013*"jam" + 0.012*"tunggu" + 0.011*"sakit" + 0.010*"layan" + 0.010*"antri" + 0.010*"saya" + 0.009*"daftar"</td>
+                </tr>
+                <tr>
+                  <td>Topik 2</td>
+                  <td>0.033*"antri" + 0.026*"layan" + 0.021*"lama" + 0.018*"jam" + 0.015*"tunggu" + 0.012*"obat" + 0.012*"daftar" + 0.012*"dokter" + 0.012*"banget" + 0.012*"pol"</td>
+                </tr>
+                <tr>
+                  <td>Topik 3</td>
+                  <td>0.019*"anak" + 0.016*"padahal" + 0.013*"operasi" + 0.012*"dokter" + 0.011*"mau" + 0.010*"datang" + 0.008*"layan" + 0.008*"jam" + 0.008*"saya" + 0.008*"pasien"</td>
+                </tr>
+                <tr>
+                  <td>Topik 4</td>
+                  <td>0.013*"rs" + 0.012*"anak" + 0.010*"pasien" + 0.010*"baik" + 0.009*"ada" + 0.009*"tidak" + 0.009*"lebih" + 0.008*"daftar" + 0.008*"jam" + 0.008*"lama"</td>
+                </tr>
+                <tr>
+                  <td>Topik 5</td>
+                  <td>0.021*"dokter" + 0.012*"rs" + 0.011*"apa" + 0.011*"sakit" + 0.010*"kalau" + 0.010*"sama" + 0.009*"tidak" + 0.009*"ada" + 0.008*"periksa" + 0.008*"orang"</td>
+                </tr>
+                <tr>
+                  <td>Topik 6</td>
+                  <td>0.018*"rs" + 0.014*"dokter" + 0.012*"jam" + 0.011*"bidan" + 0.010*"layan" + 0.009*"periksa" + 0.009*"bpjs" + 0.008*"jelas" + 0.008*"tidak" + 0.008*"banget"</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="charts mt-4">
+      <div class="chart-container p-3">
+        <h3 class="fs-6 mb-3">Positive Topic Distance Map</h3>
+        <div class="iframe-container">
+          <iframe src="{{ url_for('static', filename='./visualization/lda_visualization_pos_yk.html') }}" width="120%" height="750px"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="charts mt-4">
+      <div class="chart-container p-3">
+        <h3 class="fs-6 mb-3">Negative Topic Distance Map</h3>
+        <div class="iframe-container">
+          <iframe src="{{ url_for('static', filename='./visualization/lda_visualization_neg_yk.html') }}" width="120%" height="750px"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="charts mt-4">
+      <div class="chart-container p-3">
+        <h3 class="fs-6 mb-3">Representative Sentence</h3>
+        <div class="filters mb-4">
+          <div class="row">
+            <!-- Filter by Location -->
+            <div class="col-md-12">
+              <label for="locationFilter">Filter by Sentimen</label>
+              <select id="locationFilter" class="form-select" onchange="applyFilter()">
+                  <option value="all" {% if location_filter == 'all' %}selected{% endif %}>All</option>
+                  <option value="Positif" {% if location_filter == 'Positif' %}selected{% endif %}>Positif</option>
+                  <option value="Negatif" {% if location_filter == 'Negatif' %}selected{% endif %}>Negatif</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <table class="table table-bordered table-dark mt-4">
+          <thead>
+              <tr>
+                  <th>No</th>
+                  <th>Topic</th>
+                  <th>Topic Contribution</th>
+                  <th>Text</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for review in reviews %}
+                  <tr>
+                      <td>{{ loop.index + (page - 1) * 10 }}</td>
+                      <td>{{ review.Dominant_Topic }}</td>
+                      <td>{{ review.Topic_Contribution }}</td>
+                      <td>{{ review.Text }}</td>
+                  </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+              <!-- Tombol Previous -->
+              <li class="page-item {% if page == 1 %}disabled{% endif %}">
+                  <a class="page-link" 
+                    href="{{ url_for('TA_RSU_QL_KulonProgo', page=page-1, locationFilter=request.args.get('locationFilter', 'all'), ratingFilter=request.args.get('ratingFilter', 'all')) }}" 
+                    aria-label="Previous">
+                      <span aria-hidden="true">&lt;</span>
+                  </a>
+              </li>
+      
+              <!-- Menampilkan beberapa angka halaman -->
+              {% for p in page_range %}
+                  <li class="page-item {% if p == page %}active{% endif %}">
+                      <a class="page-link" 
+                        href="{{ url_for('TA_RSU_QL_KulonProgo', page=p, locationFilter=request.args.get('locationFilter', 'all'), ratingFilter=request.args.get('ratingFilter', 'all')) }}">
+                          {{ p }}
+                      </a>
+                  </li>
+              {% endfor %}
+      
+              <!-- Tombol Next -->
+              <li class="page-item {% if page == total_pages %}disabled{% endif %}">
+                  <a class="page-link" 
+                    href="{{ url_for('TA_RSU_QL_KulonProgo', page=page+1, locationFilter=request.args.get('locationFilter', 'all'), ratingFilter=request.args.get('ratingFilter', 'all')) }}" 
+                    aria-label="Next">
+                      <span aria-hidden="true">&gt;</span>
+                  </a>
+              </li>
+          </ul>
+        </nav>
+      </div>
+    </section>
+
+  </div>
+</section>
+<!-- partial -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.jshttps://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js'></script><script  src="./script.js"></script>
+<script src="{{url_for('static', filename='/js/script.js')}}"></script>
+<script>
+function applyFilter() {
+    const location = document.getElementById('locationFilter').value;
+    const url = new URL(window.location.href);
+    url.searchParams.set('locationFilter', location);
+    url.searchParams.set('page', 1); // Reset ke halaman 1 saat filter diterapkan
+    window.location.href = url.toString();
+}
+    // Data coherence score untuk data positif
+  const coherenceScoresPositive = [0.493, 0.474, 0.454, 0.466, 0.429, 0.458, 0.438, 0.461, 0.436]
+  const topicsPositive = [2, 3, 4, 5, 6, 7, 8, 9, 10]
+  const coherenceScoresNegative = [0.279, 0.260, 0.291, 0.288, 0.314, 0.269, 0.288, 0.298, 0.281]
+  const topicsNegative = [2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+        // Konfigurasi chart untuk Positive
+        const ctxPositive = document.getElementById('coherenceChartPositive').getContext('2d');
+        const coherenceChartPositive = new Chart(ctxPositive, {
+            type: 'line',
+            data: {
+                labels: topicsPositive,
+                datasets: [{
+                    label: 'Coherence Score - Positive',
+                    data: coherenceScoresPositive,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    fill: false,
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Number of Topics'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        suggestedMax: 1.0,
+                        title: {
+                            display: true,
+                            text: 'Coherence Score'
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        enabled: true,
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return 'Score: ' + tooltipItem.raw.toFixed(3); // Menampilkan nilai dengan 3 angka desimal
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Konfigurasi chart untuk Negative
+        const ctxNegative = document.getElementById('coherenceChartNegative').getContext('2d');
+        const coherenceChartNegative = new Chart(ctxNegative, {
+            type: 'line',
+            data: {
+                labels: topicsNegative,
+                datasets: [{
+                    label: 'Coherence Score - Negative',
+                    data: coherenceScoresNegative,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    fill: false,
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Number of Topics'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        suggestedMax: 1.0,
+                        title: {
+                            display: true,
+                            text: 'Coherence Score'
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        enabled: true,
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return 'Score: ' + tooltipItem.raw.toFixed(3); // Menampilkan nilai dengan 3 angka desimal
+                            }
+                        }
+                    }
+                }
+            }
+        });
+</script>
+</body>
+</html>
