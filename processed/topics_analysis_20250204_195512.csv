@@ -1,0 +1,6 @@
+sentiment,topic_number,words,coherence_score
+positive,Topic 1,"baik, makin, dan, juga, dokter, operasi, di, latifa, queen",0.4399120366050247
+positive,Topic 2,"banget, dan, opname, dari, di, rs, rawat, yang, queen",0.4399120366050247
+negative,Topic 1,"dokter, jam, usg, mohon, belum, depan, di, jadwal, lagi",0.3283000598199168
+negative,Topic 2,"ramah, layan, tidak, dokter, jam, usg, lebih, belum, depan",0.3283000598199168
+negative,Topic 3,"ramah, layan, tidak, dokter, jam, usg, lebih, belum, depan",0.3283000598199168

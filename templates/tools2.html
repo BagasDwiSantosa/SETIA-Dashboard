@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Text Preprocessing Tool</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/style.css')}}"
+    />
+    <link
+      rel="icon"
+      href="{{url_for('static', filename='img/logo.png')}}"
+      type="image/png"
+    />
+    <style>
+      h3,
+      th,
+      td {
+        color: white;
+      }
+      p {
+        color: white;
+      }
+      .chart-container {
+        /* border: 1px solid #dee2e6; */
+        min-height: 200px;
+      }
+      .loading {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+      }
+        /* Style the overlay */
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .loading-spinner {
+    text-align: center;
+    color: white;
+    font-size: 18px;
+  }
+
+  .loading-spinner .spinner-border {
+    width: 60px;
+    height: 60px;
+    border-width: 6px;
+    margin-bottom: 20px;
+    animation: spin 1.5s infinite linear;
+  }
+
+  .loading-text {
+    font-size: 16px;
+    color: white;
+    font-weight: 500;
+    opacity: 0.9;
+  }
+
+  /* Add smooth spin animation */
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+    </style>
+  </head>
+  <body>
+    <aside
+      class="sidebar position-fixed top-0 left-0 overflow-auto h-100 float-left"
+      id="show-side-navigation1"
+    >
+      <i
+        class="uil-bars close-aside d-md-none d-lg-none"
+        data-close="show-side-navigation1"
+      ></i>
+      <div
+        class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4"
+      >
+        <img
+          class="img-fluid"
+          width="200"
+          src="{{url_for('static', filename='img/logo3.png')}}"
+          alt="Logo"
+        />
+      </div>
+
+      <ul class="categories list-unstyled">
+        <li class="">
+          <i class="uil-estate fa-fw"></i
+          ><a href="{{url_for('home')}}"> Dashboard</a>
+        </li>
+        <li class="">
+          <i class="uil-database fa-fw"></i
+          ><a href="{{url_for('Data_Reviews_GMaps')}}"> Data Reviews GMaps</a>
+        </li>
+        <li class="has-dropdown">
+          <i class="uil-process"></i><a href="#"> Pre-Processing</a>
+          <ul class="sidebar-dropdown list-unstyled">
+            <li class="d-flex align-items-center">
+              <i class="uil-text me-2"></i>
+              <a href="{{url_for('case_folding')}}">Case Folding</a>
+            </li>
+            <li class="d-flex align-items-center">
+              <i class="uil-trash-alt me-2"></i>
+              <a href="{{url_for('data_cleaning')}}">Data Cleaning</a>
+            </li>
+            <li class="d-flex align-items-center">
+              <i class="uil-sliders-v-alt me-2"></i>
+              <a href="{{url_for('normalization')}}">Normalization</a>
+            </li>
+            <li class="d-flex align-items-center">
+              <i class="uil-paragraph me-2"></i>
+              <a href="{{url_for('tokenizing')}}">Tokenizing</a>
+            </li>
+            <li class="d-flex align-items-center">
+              <i class="uil-filter me-2"></i>
+              <a href="{{url_for('filtering')}}">Filtering</a>
+            </li>
+            <li class="d-flex align-items-center">
+              <i class="uil-pen me-2"></i>
+              <a href="{{url_for('stemming')}}">Stemming</a>
+            </li>
+            <li class="d-flex align-items-center">
+              <i class="uil-file-check-alt"></i>
+              <a href="{{url_for('text_validation')}}">Validation</a>
+            </li>
+          </ul>
+        </li>
+        <li class="">
+          <i class="uil-panel-add"></i
+          ><a href="{{url_for('sentimen_analysis')}}"> Sentimen Analysis</a>
+        </li>
+        <li class="">
+          <i class="uil-panel-add"></i
+          ><a href="{{url_for('topic_analysis')}}"> Topic Analysis</a>
+        </li>
+        <li class="">
+          <i
+            class="uil-comment-alt-chart-lines fa-fw"
+            style="color: #ffc107"
+          ></i
+          ><a href="{{url_for('Sentimen_Topic_Tools')}}" style="color: #ffc107">
+            Sentimen Topic Tools</a
+          >
+        </li>
+      </ul>
+    </aside>
+
+    <section id="wrapper">
+      <nav class="navbar navbar-expand-md">
+        <div class="container-fluid mx-2">
+          <div class="navbar-header">
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#toggle-navbar"
+              aria-controls="toggle-navbar"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <i class="uil-bars text-white"></i>
+            </button>
+            <a class="navbar-brand" href="#">
+              <strong>SETIA </strong
+              ><span class="main-color"
+                ><strong>(Sentiment and Topic Insights Analysis)</strong></span
+              >
+            </a>
+          </div>
+          <div class="collapse navbar-collapse" id="toggle-navbar">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <i
+                    data-show="show-side-navigation1"
+                    class="uil-bars show-side-btn"
+                  ></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div class="p-4">
+        <div class="welcome">
+          <div class="content rounded-3 p-3">
+            <h1 class="fs-3">
+              Comprehensive Tools for Sentiment and Topic Exploration
+            </h1>
+            <p class="mb-0">
+              Empowering Sentiment and Topic Analysis with Comprehensive Tools
+            </p>
+          </div>
+        </div>
+        <div class="loading-overlay" id="loadingOverlay">
+          <div class="loading-spinner">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="loading-text">Please wait, we are preparing your results...</p>
+          </div>
+        </div>
+
+        <section class="charts mt-4">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="chart-container rounded-2 p-3 box d-flex flex-column align-items-center">
+                <i
+                  class="uil uil-file-upload fs-2 text-center bg-primary rounded-circle mb-3"
+                  style="
+                    width: 60px;
+                    height: 60px;
+                    line-height: 60px;
+                    color: white;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                  "
+                ></i>
+                <h5 class="mb-2" style="color: white;">Upload, Analyze, Predict – It’s That Simple!</h5>
+                <p id="fileInfo" class="fs-normal mb-3 text-muted">
+                  Upload file with review_text column (CSV or XLSX)
+                </p>
+                <input type="file" accept=".xlsx,.csv" id="uploadFile" style="display: none" />
+                <button class="btn btn-primary mb-3" onclick="document.getElementById('uploadFile').click()">
+                  Upload Data
+                </button>
+                <button id="downloadSentimentBtn" class="btn btn-success" style="display: none;">
+                  Download Sentiment
+                </button>
+              </div>
+            </div>
+        
+            <div class="col-lg-6">
+              <div class="chart-container rounded-2 p-3 box d-flex flex-column align-items-center">
+                <h4 class="mb-3 text-primary fw-bold">
+                  <i class="uil uil-brain fs-3"></i> Topic Selection Method
+                </h4>
+        
+                <div class="form-check p-2 rounded-2">
+                  <input class="form-check-input" type="radio" name="topicSelection" id="autoTopic" value="auto" checked>
+                  <label class="form-check-label fw-medium text-white" for="autoTopic">
+                    <i class="uil uil-bolt-alt text-warning"></i> Automatic (Based on Coherence Score)
+                  </label>
+                </div>
+        
+                <div class="form-check mt-2 p-2 rounded-2" style="margin-left: -27px;">
+                  <input class="form-check-input" type="radio" name="topicSelection" id="manualTopic" value="manual">
+                  <label class="form-check-label fw-medium text-white" for="manualTopic">
+                    <i class="uil uil-edit text-success"></i> Manual (Choose Number of Topics)
+                  </label>
+                </div>
+        
+                <div class="mt-3 p-3 rounded-2 shadow-sm" id="manualTopicInput" style="display: none;">
+                  <label for="numTopics" class="form-label fw-bold text-secondary">
+                    <i class="uil uil-list-ol"></i> Number of Topics:
+                  </label>
+                  <input type="number" class="form-control border-primary" id="numTopics" min="2" max="10" value="5">
+                </div>
+        
+                <button id="analyzeTopicsBtn" class="btn btn-primary mt-3">
+                  Analyze Topics
+                </button>
+                <button id="downloadTopicsBtn" class="btn btn-success mt-2" style="display: none;">
+                  Download Topics
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <section class="charts mt-4">
+          <div class="col-12">
+            <div class="chart-container rounded-2 p-3">
+              <h3 class="fs-6 mb-3">
+                Data Insights: Preprocessing & Sentiment
+              </h3>
+              <table class="table table-bordered" id="resultsTable">
+                <thead>
+                  <tr class="text-center">
+                    <th>No</th>
+                    <th>Original Text</th>
+                    <th>Processed Text</th>
+                    <th>Predicted</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Data will be populated here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        <section class="charts mt-4">
+          <div class="col-12">
+            <div class="chart-container rounded-2 p-3">
+              <h3 class="fs-6 mb-3">Topic Distribution Overview</h3>
+              <table class="table table-bordered" id="topicsTable">
+                <thead>
+                  <tr class="text-center">
+                    <th>Topic</th>
+                    <th>Top Words</th>
+                    <th>Coherence Score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Topic modeling data will be populated here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+    <script>
+
+document.getElementById("loadingOverlay").style.display = "flex";
+
+// Hide Loading Overlay after 3 seconds (for example)
+setTimeout(function() {
+  document.getElementById("loadingOverlay").style.display = "none";
+}, 1000);
+
+// Global variables to store filenames
+let currentSentimentFileName = '';
+let currentTopicsFileName = '';
+
+document.getElementById("uploadFile").addEventListener("change", async function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    document.getElementById("loadingOverlay").style.display = "flex";
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const topicSelection = document.querySelector('input[name="topicSelection"]:checked').value;
+    formData.append("topicSelection", topicSelection);
+    
+    if (topicSelection === 'manual') {
+        const numTopics = document.getElementById("numTopics").value;
+        formData.append("numTopics", numTopics);
+    }
+
+    try {
+        const response = await fetch("/upload", {
+            method: "POST",
+            body: formData,
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            // Update the UI with results
+            updateTable(result.data);
+            updateTopicsTable(result.sentiment_topics);
+            
+            // Store filenames
+            currentSentimentFileName = result.sentiment_filename;
+            currentTopicsFileName = result.topics_filename;
+            
+            // Show download buttons
+            const downloadSentimentBtn = document.getElementById("downloadSentimentBtn");
+            const downloadTopicsBtn = document.getElementById("downloadTopicsBtn");
+            
+            downloadSentimentBtn.style.display = "block";
+            downloadTopicsBtn.style.display = "block";
+            
+            // Set up download handlers
+            downloadSentimentBtn.onclick = () => downloadFile(currentSentimentFileName);
+            downloadTopicsBtn.onclick = () => downloadFile(currentTopicsFileName);
+        } else {
+            alert(result.error || "An error occurred during processing");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred during file upload");
+    } finally {
+        document.getElementById("loadingOverlay").style.display = "none";
+    }
+});
+
+// Function to handle file downloads
+function downloadFile(filename) {
+    if (!filename) {
+        alert("No file available for download");
+        return;
+    }
+    window.location.href = `/download/${filename}`;
+}
+
+// Handle topic selection radio buttons
+document.querySelectorAll('input[name="topicSelection"]').forEach((radio) => {
+    radio.addEventListener("change", function() {
+        const manualInput = document.getElementById("manualTopicInput");
+        manualInput.style.display = this.value === "manual" ? "block" : "none";
+    });
+});
+
+// Handle analyze topics button click
+document.getElementById("analyzeTopicsBtn").addEventListener("click", async function() {
+    const file = document.getElementById("uploadFile").files[0];
+    if (!file) {
+        alert("Please upload a file first");
+        return;
+    }
+    
+    const changeEvent = new Event("change");
+    document.getElementById("uploadFile").dispatchEvent(changeEvent);
+});
+function updateTable(data) {
+    const tbody = document.querySelector("#resultsTable tbody");
+    tbody.innerHTML = "";
+
+    data.forEach((row, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${row.review_text}</td>
+            <td>${row.processed_text}</td>
+            <td>${row.predictions}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function updateTopicsTable(sentimentTopics) {
+    const tbody = document.querySelector("#topicsTable tbody");
+    tbody.innerHTML = "";
+
+    if (sentimentTopics.positive && sentimentTopics.positive.topics) {
+        const posCount = sentimentTopics.positive.count;
+        sentimentTopics.positive.topics.forEach((topic) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>Positive (${posCount} reviews) - ${topic.topic}</td>
+                <td>${topic.words}</td>
+                <td>${topic.coherence_score.toFixed(4)}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    if (sentimentTopics.negative && sentimentTopics.negative.topics) {
+        const negCount = sentimentTopics.negative.count;
+        sentimentTopics.negative.topics.forEach((topic) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>Negative (${negCount} reviews) - ${topic.topic}</td>
+                <td>${topic.words}</td>
+                <td>${topic.coherence_score.toFixed(4)}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+}
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.jshttps://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./script.js"></script>
+    <script src="{{url_for('static', filename='/js/script.js')}}"></script>
+  </body>
+</html>

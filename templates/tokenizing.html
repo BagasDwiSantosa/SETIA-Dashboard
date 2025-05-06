@@ -54,8 +54,8 @@
           <a href="{{url_for('stemming')}}">Stemming</a>
         </li>
         <li class="d-flex align-items-center">
-          <i class="uil-chart-line me-2"></i>
-          <a href="{{url_for('representasi')}}">Representasi</a>
+          <i class="uil-file-check-alt"></i>
+          <a href="{{url_for('text_validation')}}">Validation</a>
         </li>
       </ul>
     </li>
@@ -120,6 +120,7 @@
           <thead>
               <tr>
                   <th>No</th>
+                  <th>Filtering (Stopwords)</th>
                   <th>Tokenizing</th>
               </tr>
           </thead>
@@ -127,6 +128,7 @@
               {% for review in reviews %}
                   <tr>
                       <td>{{ loop.index + (page - 1) * 10 }}</td>
+                      <td>{{ review.text_slang }}</td>
                       <td>{{ review.text_token }}</td>
                   </tr>
               {% endfor %}

@@ -54,8 +54,8 @@
           <a href="{{url_for('stemming')}}">Stemming</a>
         </li>
         <li class="d-flex align-items-center">
-          <i class="uil-chart-line me-2"></i>
-          <a href="{{url_for('representasi')}}">Representasi</a>
+          <i class="uil-file-check-alt"></i>
+          <a href="{{url_for('text_validation')}}">Validation</a>
         </li>
       </ul>
     </li>
@@ -102,12 +102,8 @@
         <p>
           <ul>
             <li>
-              <strong>Positive Highlights</strong><br>
-              Menyajikan ringkasan dari temuan utama dalam ulasan dengan sentimen positif. Hal ini dapat mencakup aspek-aspek yang paling dihargai pasien.
-            </li>
-            <li>
-              <strong>Negative Highlights</strong><br>
-              Menyajikan ringkasan dari temuan utama dalam ulasan dengan sentimen negatif. Fokus pada area yang perlu perbaikan.
+              <strong>Positive & Negative Highlights</strong><br>
+              Ringkasan temuan utama dalam ulasan dengan sentimen positif dan negatif, mencakup aspek yang dihargai pasien serta area yang perlu perbaikan.
             </li>
             <li>
               <strong>Accuracy Train & Test</strong><br>
@@ -122,12 +118,8 @@
               Visualisasi distribusi sentimen yang diprediksi oleh model, untuk membandingkan hasil klasifikasi dengan data nyata.
             </li>
             <li>
-              <strong>Wordcloud Positive Sentiment</strong><br>
-              Representasi visual kata-kata yang sering muncul dalam ulasan dengan sentimen positif, membantu mengidentifikasi tema utama yang diapresiasi pasien.
-            </li>
-            <li>
-              <strong>Wordcloud Negative Sentiment</strong><br>
-              Representasi visual kata-kata yang sering muncul dalam ulasan dengan sentimen negatif, mengungkapkan area yang perlu diperbaiki oleh rumah sakit.
+              <strong>Wordcloud Positive & Negative Sentiment</strong><br>
+              Representasi visual kata-kata yang sering muncul dalam ulasan positif dan negatif.
             </li>
             <li>
               <strong>Data Sentimen (Table)</strong><br>
@@ -138,6 +130,7 @@
       </div>
     </div>
     <section class="statistics mt-4">
+      <p class="mb-3">Klik salah satu lokasi untuk melihat insight sentimen pasien:</p>
       <div class="row">
         <div class="col-lg-6">
           <a href="{{ url_for('SA_RSU_QL_Yogyakarta') }}" class="btn btn-primary w-100 text-start d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">

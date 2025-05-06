@@ -1,0 +1,5 @@
+sentiment,topic_number,words,coherence_score
+positive,Topic 1,"makan, gratis, dari, siang, program, anak, yang, nya, itu",2.477310069224391
+positive,Topic 2,"siang, gratis, makan, program, dan, gizi, di, dengan, tidur",2.477310069224391
+negative,Topic 1,"makan, tidak, siang, gratis, program, di, ada, yang, dan",3.780943537474259
+negative,Topic 2,"itu, program, makan, gratis, yang, siang, iya, dari, saya",3.780943537474259

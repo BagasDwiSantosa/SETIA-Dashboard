@@ -7,6 +7,8 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel='stylesheet' href='https://unicons.iconscout.com/release/v3.0.6/css/line.css'><link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
   <link rel="icon" href="{{url_for('static', filename='img/logo.png')}}" type="image/png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
   <style>
     /* Mengubah warna teks di <th> dan <td> menjadi putih */
     th, td {
@@ -114,8 +116,8 @@ h3 {
           <a href="{{url_for('stemming')}}">Stemming</a>
         </li>
         <li class="d-flex align-items-center">
-          <i class="uil-chart-line me-2"></i>
-          <a href="{{url_for('representasi')}}">Representasi</a>
+          <i class="uil-file-check-alt"></i>
+          <a href="{{url_for('text_validation')}}">Validation</a>
         </li>
       </ul>
     </li>
@@ -154,15 +156,22 @@ h3 {
     </div>
   </nav>
 
-  <div class="p-4">
-    <div class="welcome">
-      <div class="content rounded-3 p-3">
-        <h1 class="fs-3">Topic Insight Explorer at RSU Queen Latifa KulonProgo</h1>
-        <p class="mb-0">Unveiling Key Discussion Topics with LDA Analysis</p>
+    <div class="col-lg-12 mt-4">
+      <div class="w-100 text-start d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3 bg-success text-white shadow-sm">
+        <a href="javascript:history.back()" class="text-white me-3" style="font-size: 1.5rem;">
+          <i class="bi bi-arrow-left-circle-fill"></i>
+        </a>
+        <div class="ms-1">
+          <div class="d-flex align-items-center mb-1">
+            <h3 class="mb-0">Topic Insight Explorer at RSU Queen Latifa</h3>
+            <span class="d-block ms-2">Kulon Progo</span>
+          </div>
+          <p class="fs-normal mb-0">Unveiling Key Discussion Topics with LDA Analysis</p>
+        </div>
       </div>
     </div>
-
-    <section class="statistics mt-4">
+    
+    <!-- <section class="statistics mt-4">
       <div class="row">
         <div class="col-lg-6">
           <a href="{{ url_for('TA_RSU_QL_Yogyakarta') }}" class="btn btn-primary w-100 text-start d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
@@ -187,9 +196,34 @@ h3 {
           </a>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <section class="charts mt-4">
+      <style>
+        .accordion-button {
+          background-color: #343a40; /* warna gelap */
+          color: white;
+        }
+    
+        .accordion-button:not(.collapsed) {
+          background-color: #495057; /* saat terbuka */
+          color: white;
+        }
+    
+        .accordion-button::after {
+          filter: brightness(0) invert(1); /* ikon panah jadi putih */
+        }
+    
+        .accordion-body {
+          background-color: #2c2f33; /* isi konten accordion */
+          color: white;
+        }
+    
+        .accordion-item {
+          border: none;
+          background-color: transparent;
+        }
+      </style>
       <div class="row">
         <div class="col-lg-6">
           <div class="chart-container rounded-2 p-3">
@@ -203,8 +237,8 @@ h3 {
                 </h2>
                 <div id="positiveTopic1" class="accordion-collapse collapse" aria-labelledby="positiveTopic1Header" data-bs-parent="#positiveTopics">
                   <div class="accordion-body">
-                    Fokus pada pelayanan yang ramah dan baik, dengan kecepatan layanan yang memuaskan. Kata-kata seperti "ramah," "cepat," dan "puas" menunjukkan apresiasi terhadap keramahan tenaga medis dan efisiensi pelayanan.
-                    <br><strong>Insight:</strong> Tenaga medis yang ramah menjadi daya tarik utama.
+                    Topik ini menggambarkan kepuasan pasien terhadap pelayanan rumah sakit, terutama pelayanan dokter yang cepat dan ramah.
+                    <br><br><strong style="color: orange;">Insight:</strong> Citra rumah sakit positif karena pelayanan yang baik, cepat, dan fasilitas yang bersih dan nyaman.
                   </div>
                 </div>
               </div>
@@ -216,12 +250,24 @@ h3 {
                 </h2>
                 <div id="positiveTopic2" class="accordion-collapse collapse" aria-labelledby="positiveTopic2Header" data-bs-parent="#positiveTopics">
                   <div class="accordion-body">
-                    Ulasan positif secara umum terhadap rumah sakit, mencakup fasilitas yang baik dan pelayanan yang menyenangkan. Kata-kata seperti "ramah" dan "bagus" mendukung persepsi profesionalitas rumah sakit.
-                    <br><strong>Insight:</strong> Citra positif RSU dipengaruhi oleh pelayanan secara keseluruhan.
+                    Banyak menyebut RSU Queen Latifa Kulon Progo secara spesifik, menunjukkan penilaian terhadap institusi dan layanan personal.
+                    <br><br><strong style="color: orange;">Insight:</strong> RSU Queen Latifa Kulon Progo dinilai positif oleh pasien berkat keramahan staf dan pelayanan rawat inap yang baik.
                   </div>
                 </div>
               </div>
-              <br><br><br><br><br><br><br><br><br><br><br><br>
+              <div class="accordion-item" style="margin-bottom: 260px;">
+                <h2 class="accordion-header" id="positiveTopic3Header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#positiveTopic3" aria-expanded="false" aria-controls="positiveTopic3">
+                    Topic 3
+                  </button>
+                </h2>
+                <div id="positiveTopic3" class="accordion-collapse collapse" aria-labelledby="positiveTopic3Header" data-bs-parent="#positiveTopics">
+                  <div class="accordion-body">
+                    Umumnya ulasan menggambarkan kondisi rumah sakit yang bagus, ramah, dan memberikan kenyamanan selama perawatan.
+                    <br><br><strong style="color: orange;">Insight:</strong> Pelayanan yang cepat dan karyawan yang ramah menjadi nilai tambah yang meningkatkan kenyamanan pasien.
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -237,8 +283,8 @@ h3 {
                 </h2>
                 <div id="negativeTopic1" class="accordion-collapse collapse" aria-labelledby="negativeTopic1Header" data-bs-parent="#negativeTopics">
                   <div class="accordion-body">
-                    Keluhan terkait waktu tunggu yang lama dan antrian untuk layanan dokter maupun obat. Kata-kata seperti "antri," "tunggu," dan "obat" menjadi indikasi masalah utama.
-                    <br><strong>Insight:</strong> Proses antrian perlu ditingkatkan untuk meminimalkan waktu tunggu pasien.
+                    Banyak keluhan terkait waktu tunggu yang lama, terutama untuk kamar rawat inap.
+                    <br><br><strong style="color: orange;">Insight:</strong> Perlu perbaikan manajemen waktu tunggu dan koordinasi kamar rawat agar lebih efisien.
                   </div>
                 </div>
               </div>
@@ -250,8 +296,8 @@ h3 {
                 </h2>
                 <div id="negativeTopic2" class="accordion-collapse collapse" aria-labelledby="negativeTopic2Header" data-bs-parent="#negativeTopics">
                   <div class="accordion-body">
-                    Keluhan terkait waktu tunggu yang lama dan antrian untuk layanan dokter maupun obat. Kata-kata seperti "antri," "tunggu," dan "obat" menjadi indikasi masalah utama.
-                    <br><strong>Insight:</strong> Proses antrian perlu ditingkatkan untuk meminimalkan waktu tunggu pasien.
+                    Fokus pada pelayanan anak dan vaksinasi, serta komunikasi antara pasien dan dokter.
+                    <br><br><strong style="color: orange;">Insight:</strong> Pelayanan anak cukup aktif, namun perlu peningkatan kejelasan informasi dari dokter.
                   </div>
                 </div>
               </div>
@@ -263,8 +309,8 @@ h3 {
                 </h2>
                 <div id="negativeTopic3" class="accordion-collapse collapse" aria-labelledby="negativeTopic3Header" data-bs-parent="#negativeTopics">
                   <div class="accordion-body">
-                    Keluhan terkait waktu tunggu yang lama dan antrian untuk layanan dokter maupun obat. Kata-kata seperti "antri," "tunggu," dan "obat" menjadi indikasi masalah utama.
-                    <br><strong>Insight:</strong> Proses antrian perlu ditingkatkan untuk meminimalkan waktu tunggu pasien.
+                    Isu pada jadwal pemeriksaan dan keterlambatan dokter, termasuk untuk layanan swab.
+                    <br><br><strong style="color: orange;">Insight:</strong> Transparansi dan ketepatan jadwal dokter masih jadi perhatian utama pasien.
                   </div>
                 </div>
               </div>
@@ -276,8 +322,8 @@ h3 {
                 </h2>
                 <div id="negativeTopic4" class="accordion-collapse collapse" aria-labelledby="negativeTopic4Header" data-bs-parent="#negativeTopics">
                   <div class="accordion-body">
-                    Keluhan terkait waktu tunggu yang lama dan antrian untuk layanan dokter maupun obat. Kata-kata seperti "antri," "tunggu," dan "obat" menjadi indikasi masalah utama.
-                    <br><strong>Insight:</strong> Proses antrian perlu ditingkatkan untuk meminimalkan waktu tunggu pasien.
+                    Pasien anak mengalami pengalaman tidak menyenangkan hingga trauma.
+                    <br><br><strong style="color: orange;">Insight:</strong> Pendekatan ramah anak dan empati tinggi perlu ditingkatkan untuk menghindari trauma.
                   </div>
                 </div>
               </div>
@@ -289,8 +335,8 @@ h3 {
                 </h2>
                 <div id="negativeTopic5" class="accordion-collapse collapse" aria-labelledby="negativeTopic5Header" data-bs-parent="#negativeTopics">
                   <div class="accordion-body">
-                    Keluhan terkait waktu tunggu yang lama dan antrian untuk layanan dokter maupun obat. Kata-kata seperti "antri," "tunggu," dan "obat" menjadi indikasi masalah utama.
-                    <br><strong>Insight:</strong> Proses antrian perlu ditingkatkan untuk meminimalkan waktu tunggu pasien.
+                    Keluhan pada jadwal layanan ibu hamil dan kesan negatif terhadap perlakuan staf.
+                    <br><br><strong style="color: orange;">Insight:</strong> Evaluasi layanan kebidanan dan peningkatan sikap tenaga medis diperlukan.
                   </div>
                 </div>
               </div>
@@ -302,8 +348,8 @@ h3 {
                 </h2>
                 <div id="negativeTopic6" class="accordion-collapse collapse" aria-labelledby="negativeTopic6Header" data-bs-parent="#negativeTopics">
                   <div class="accordion-body">
-                    Keluhan terkait waktu tunggu yang lama dan antrian untuk layanan dokter maupun obat. Kata-kata seperti "antri," "tunggu," dan "obat" menjadi indikasi masalah utama.
-                    <br><strong>Insight:</strong> Proses antrian perlu ditingkatkan untuk meminimalkan waktu tunggu pasien.
+                    Penanganan obat dan pemeriksaan seperti USG terkesan lambat dan minim penjelasan.
+                    <br><br><strong style="color: orange;">Insight:</strong> Efisiensi pengambilan obat dan peningkatan edukasi pasien perlu ditingkatkan.
                   </div>
                 </div>
               </div>
@@ -315,8 +361,21 @@ h3 {
                 </h2>
                 <div id="negativeTopic7" class="accordion-collapse collapse" aria-labelledby="negativeTopic7Header" data-bs-parent="#negativeTopics">
                   <div class="accordion-body">
-                    Keluhan terkait waktu tunggu yang lama dan antrian untuk layanan dokter maupun obat. Kata-kata seperti "antri," "tunggu," dan "obat" menjadi indikasi masalah utama.
-                    <br><strong>Insight:</strong> Proses antrian perlu ditingkatkan untuk meminimalkan waktu tunggu pasien.
+                    Masalah tarif dan waktu tunggu dokter menjadi sorotan.
+                    <br><br><strong style="color: orange;">Insight:</strong> Transparansi tarif dan jadwal pelayanan harus diperjelas untuk menghindari kekecewaan.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="negativeTopic8Header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#negativeTopic8" aria-expanded="false" aria-controls="negativeTopic8">
+                    Topic 8
+                  </button>
+                </h2>
+                <div id="negativeTopic8" class="accordion-collapse collapse" aria-labelledby="negativeTopic8Header" data-bs-parent="#negativeTopics">
+                  <div class="accordion-body">
+                    Kekecewaan karena sulitnya komunikasi antara pasien dan petugas medis.
+                    <br><br><strong style="color: orange;">Insight:</strong> Peningkatan komunikasi dan pelayanan informatif penting untuk memperbaiki kepuasan pasien.
                   </div>
                 </div>
               </div>
@@ -345,92 +404,17 @@ h3 {
 
     <section class="charts mt-4">
       <div class="row">
-        <!-- Tabel untuk Positive Topic Highlights -->
         <div class="col-lg-6">
           <div class="chart-container rounded-2 p-3">
             <h3 class="fs-6 mb-3">Positive Words Topic</h3>
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>Topik</th>
-                  <th>Kata-kata Utama</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Topik 1</td>
-                  <td>0.050*"layan" + 0.041*"dokter" + 0.038*"ramah" + 0.022*"sangat" + 0.022*"baik" + 0.017*"cepat" + 0.017*"jelas" + 0.015*"periksa" + 0.015*"puas" + 0.010*"sini"</td>
-                </tr>
-                <tr>
-                  <td>Topik 2</td>
-                  <td>0.075*"layan" + 0.051*"ramah" + 0.039*"queen" + 0.036*"latifa" + 0.029*"sangat" + 0.027*"bagus" + 0.023*"puas" + 0.023*"rawat" + 0.022*"rsu" + 0.017*"baik"</td> 
-                </tr>
-              </tbody>
-            </table>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
+            <div id="lda-positive"></div>
           </div>
         </div>
         
-        <!-- Tabel untuk Negative Topic Highlights -->
         <div class="col-lg-6">
           <div class="chart-container rounded-2 p-3">
             <h3 class="fs-6 mb-3">Negative Words Topic</h3>
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>Topik</th>
-                  <th>Kata-kata Utama</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Topik 1</td>
-                  <td>0.019*"tanya" + 0.019*"sama" + 0.014*"ktp" + 0.011*"layan" + 0.011*"iya" + 0.011*"daftar" + 0.010*"jam" + 0.009*"mau" + 0.008*"pasien" + 0.008*"ramah"</td>
-                </tr>
-                <tr>
-                  <td>Topik 2</td>
-                  <td>0.023*"tunggu" + 0.023*"lama" + 0.022*"dokter" + 0.021*"sekali" + 0.018*"pasien" + 0.018*"tanya" + 0.015*"saya" + 0.014*"kasir" + 0.013*"lebih" + 0.012*"tidak"</td>
-                </tr>
-                <tr>
-                  <td>Topik 3</td>
-                  <td>0.015*"sakit" + 0.015*"kali" + 0.015*"obat" + 0.015*"anak" + 0.013*"dokter" + 0.013*"tidak" + 0.012*"bahkan" + 0.011*"pasien" + 0.011*"tugas" + 0.011*"jam"</td>
-                </tr>
-                <tr>
-                  <td>Topik 4</td>
-                  <td>0.026*"sangat" + 0.019*"layan" + 0.019*"pasien" + 0.016*"tidak" + 0.013*"jalan" + 0.013*"ke" + 0.010*"ramah" + 0.010*"daftar" + 0.010*"cek" + 0.010*"periksa"</td>
-                </tr>
-                <tr>
-                  <td>Topik 5</td>
-                  <td>0.029*"dokter" + 0.026*"jam" + 0.022*"layan" + 0.019*"pasien" + 0.013*"datang" + 0.013*"baik" + 0.011*"lebih" + 0.011*"anak" + 0.011*"jadwal" + 0.011*"hari"</td>
-                </tr>
-                <tr>
-                  <td>Topik 6</td>
-                  <td>0.019*"layan" + 0.019*"sangat" + 0.018*"jam" + 0.015*"banget" + 0.015*"kecewa" + 0.015*"dokter" + 0.012*"tanya" + 0.011*"kurang" + 0.011*"jaga" + 0.011*"kerja"</td>
-                </tr>
-                <tr>
-                  <td>Topik 7</td>
-                  <td>0.019*"layan" + 0.016*"lama" + 0.014*"dokter" + 0.014*"tunggu" + 0.014*"mau" + 0.014*"sama" + 0.014*"jadwal" + 0.011*"rawat" + 0.011*"benar" + 0.008*"bisa"</td>
-                </tr>
-              </tbody>
-            </table>
+            <div id="lda-negative"></div>
           </div>
         </div>
       </div>
@@ -440,7 +424,7 @@ h3 {
       <div class="chart-container p-3">
         <h3 class="fs-6 mb-3">Positive Topic Distance Map</h3>
         <div class="iframe-container">
-          <iframe src="{{ url_for('static', filename='./visualization/lda_visualization_pos_kp.html') }}" width="120%" height="750px"></iframe>
+          <iframe src="{{ url_for('static', filename='./visualization/lda_visualization_pos_kp2.html') }}" width="120%" height="750px"></iframe>
         </div>
       </div>
     </section>
@@ -449,7 +433,7 @@ h3 {
       <div class="chart-container p-3">
         <h3 class="fs-6 mb-3">Negative Topic Distance Map</h3>
         <div class="iframe-container">
-          <iframe src="{{ url_for('static', filename='./visualization/lda_visualization_neg_kp.html') }}" width="120%" height="750px"></iframe>
+          <iframe src="{{ url_for('static', filename='./visualization/lda_visualization_neg_kp2.html') }}" width="120%" height="750px"></iframe>
         </div>
       </div>
     </section>
@@ -528,6 +512,7 @@ h3 {
   </div>
 </section>
 <!-- partial -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js'></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.jshttps://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js'></script><script  src="./script.js"></script>
@@ -541,13 +526,12 @@ h3 {
     window.location.href = url.toString();
 }
 
-  // Data coherence score untuk data positif
 // Data coherence score untuk data positif
-const coherenceScoresPositive = [0.486, 0.452, 0.475, 0.421, 0.431, 0.403, 0.443, 0.407, 0.401];
+const coherenceScoresPositive = [0.447, 0.469, 0.414, 0.424, 0.466, 0.446, 0.419, 0.463, 0.407];
 const topicsPositive = [2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 // Data coherence score untuk data negatif
-const coherenceScoresNegative = [0.315, 0.371, 0.354, 0.393, 0.322, 0.398, 0.358, 0.370, 0.370];
+const coherenceScoresNegative = [0.366, 0.381, 0.372, 0.409, 0.441, 0.346, 0.442, 0.374, 0.377];
 const topicsNegative = [2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 
@@ -640,6 +624,11 @@ const topicsNegative = [2, 3, 4, 5, 6, 7, 8, 9, 10];
               }
           }
       });
+  var graphs_positive = {{ graphJSON_positive | safe }};
+  var graphs_negative = {{ graphJSON_negative | safe }};
+
+  Plotly.newPlot('lda-positive', graphs_positive.data, graphs_positive.layout);
+  Plotly.newPlot('lda-negative', graphs_negative.data, graphs_negative.layout);
 </script>
 </body>
 </html>

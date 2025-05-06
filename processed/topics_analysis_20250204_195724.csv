@@ -1,0 +1,11 @@
+sentiment,topic_number,words,coherence_score
+positive,Topic 1,"layan, wangi, pula, jadi, dan, takut, datang, bersih, set",0.7747057295802371
+positive,Topic 2,"dan, ramah, di, sakit, pakai, rumah, sangat, sunscreen, aku",0.7747057295802371
+positive,Topic 3,"cuma, kaca, pergi, langsung, mecahin, helm, sudah, dan, ramah",0.7747057295802371
+positive,Topic 4,"minus, sering, penuh, parkir, dan, ramah, rawat, bersih, makin",0.7747057295802371
+positive,Topic 5,"luas, bersih, cos, baik, nya, parkir, kali, juga, lingkung",0.7747057295802371
+negative,Topic 1,"pasien, rawat, sama, dokter, jalan, toilet, ekspek, sangat, tidak",0.49801623260255495
+negative,Topic 2,"banget, mushola, berapa, salut, jamaah, penuh, sholat, lantai, lupa",0.49801623260255495
+negative,Topic 3,"mundur, parkir, tukang, santun, sopan, belum, datang, jam, tidak",0.49801623260255495
+negative,Topic 4,"obat, lama, tunggu, ada, pasien, istirahat, siksa, racik, psalnya",0.49801623260255495
+negative,Topic 5,"saya, bukan, pasien, ingin, layan, customer, service, ke, salah",0.49801623260255495

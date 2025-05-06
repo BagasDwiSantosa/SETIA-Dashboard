@@ -1,0 +1,7 @@
+sentiment,topic_number,words,coherence_score
+positive,Topic 1,"rawat, jadi, nyaman, minus, penuh, sering, parkir, adem, anak",0.7243359293663715
+positive,Topic 2,"dan, ramah, bersih, di, luas, pula, wangi, layan, pakai",0.7243359293663715
+positive,Topic 3,"sudah, kali, makin, layan, kesini, mecahin, cuma, langsung, helm",0.7243359293663715
+negative,Topic 1,"toilet, jalan, ekspek, untuk, rawat, dokter, disiplin, kalau, praktek",0.5620420817776877
+negative,Topic 2,"pasien, mundur, lama, obat, jam, tunggu, harus, bungsu, datang",0.5620420817776877
+negative,Topic 3,"ada, sopan, tukang, parkir, santun, tidak, saya, buruk, banget",0.5620420817776877

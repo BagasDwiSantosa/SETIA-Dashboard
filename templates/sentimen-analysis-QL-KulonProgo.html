@@ -6,6 +6,7 @@
   <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css'>
   <link rel='stylesheet' href='https://unicons.iconscout.com/release/v3.0.6/css/line.css'><link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
   <link rel="icon" href="{{url_for('static', filename='img/logo.png')}}" type="image/png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
 <!-- partial:index.partial.html -->
@@ -54,8 +55,8 @@
           <a href="{{url_for('stemming')}}">Stemming</a>
         </li>
         <li class="d-flex align-items-center">
-          <i class="uil-chart-line me-2"></i>
-          <a href="{{url_for('representasi')}}">Representasi</a>
+          <i class="uil-file-check-alt"></i>
+          <a href="{{url_for('text_validation')}}">Validation</a>
         </li>
       </ul>
     </li>
@@ -94,14 +95,21 @@
     </div>
   </nav>
 
-  <div class="p-4">
-    <div class="welcome">
-      <div class="content rounded-3 p-3">
-        <h1 class="fs-3">Sentiment Insight Explorer at RSU Queen Latifa KulonProgo</h1>
-        <p class="mb-0">Analyzing Patient Sentiment with Support Vector Machine</p>
+    <div class="col-lg-12 mt-4">
+      <div class="w-100 text-start d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3 bg-success text-white shadow-sm">
+        <a href="javascript:history.back()" class="text-white me-3" style="font-size: 1.5rem;">
+          <i class="bi bi-arrow-left-circle-fill"></i>
+        </a>
+        <div class="ms-1">
+          <div class="d-flex align-items-center mb-1">
+            <h3 class="mb-0">Sentiment Insight Explorer at RSU Queen Latifa</h3>
+            <span class="d-block ms-2">Kulon Progo</span>
+          </div>
+          <p class="fs-normal mb-0">Analyzing Patient Sentiment with Support Vector Machine</p>
+        </div>
       </div>
     </div>
-    <section class="statistics mt-4">
+    <!-- <section class="statistics mt-4">
       <div class="row">
         <div class="col-lg-6">
           <a href="{{ url_for('SA_RSU_QL_Yogyakarta') }}" class="btn btn-primary w-100 text-start d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
@@ -126,9 +134,9 @@
           </a>
         </div>
       </div>
-    </section>
+    </section> -->
 
-    <section class="charts mt-4">
+    <!-- <section class="charts mt-4">
       <div class="row">
         <div class="col-lg-6">
           <div class="chart-container rounded-2 p-3">
@@ -144,18 +152,18 @@
         </div>
       </div>
     </section>
-    
+     -->
     <section class="charts mt-4 text-center">
       <div class="row">
         <div class="col-lg-6">
           <div class="chart-container rounded-2 p-3">
-            <h3>99,6%</h3>
+            <h3>99,8%</h3>
             <p class="lead" style=color:white>Accuracy Train</p>
           </div>
         </div>
         <div class="col-lg-6">
           <div class="chart-container rounded-2 p-3">
-            <h3>94,5%</h3>
+            <h3>90,2%</h3>
             <p class="lead" style=color:white>Accuracy Test</p>
 
           </div>
@@ -204,19 +212,16 @@
       </div>
     </section>
 
-
     <section class="statis mt-4 text-center">
       <div class="row">
         <div class="col-12 mb-4">
           <div class="box bg-info p-3">
             <h3>Data Sentimen Explorer</h3>
-            <p class="lead" style="color: #f8f9fa; font-size: 14px;">Eksplorasi Data Sentimen RSU Queen Latifa KulonProgo menggunakan Algoritma Support Vector Machine untuk memahami opini dan persepsi pasien atau pengguna layanan di RSU Queen Latifa KulonProgo melalui ulasan yang diberikan.</p>
+            <p class="lead" style="color: #f8f9fa; font-size: 14px;">Eksplorasi Data Sentimen RSU Queen Latifa Kulon Progo menggunakan Algoritma Support Vector Machine untuk memahami opini dan persepsi pasien atau pengguna layanan di RSU Queen Latifa Kulon Progo melalui ulasan yang diberikan.</p>
           </div>
         </div>
       </div>
     </section>
-    
-    
 
     <section class="charts mt-4">
       <div class="chart-container p-3">
@@ -258,7 +263,7 @@
               {% for review in reviews %}
                   <tr>
                       <td>{{ loop.index + (page - 1) * 10 }}</td>
-                      <td>{{ review.text_lemmatized }}</td>
+                      <td>{{ review.text_done }}</td>
                       <td>{{ review.sentimen }}</td>
                       <td>{{ review.Predicted_Label }}</td>
                   </tr>
@@ -321,7 +326,7 @@ function applyFilter() {
     labels: ['Positive', 'Negative'],
     datasets: [{
       label: 'Sentiment Real',
-      data: [{{ count_sentimen_positif }}, {{ count_sentimen_negatif }}], // Ganti dengan data dinamis
+      data: [414, 73], // Ganti dengan data dinamis
       backgroundColor: ['#28a745', '#dc3545'],
       borderColor: ['#28a745', '#dc3545'],
       borderWidth: 1
@@ -333,7 +338,7 @@ function applyFilter() {
     labels: ['Positive', 'Negative'],
     datasets: [{
       label: 'Sentiment Predicted',
-      data: [{{ count_prediction_positif }}, {{ count_prediction_negatif }}], // Ganti dengan data dinamis
+      data: [417, 70], // Ganti dengan data dinamis
       backgroundColor: ['#28a745', '#dc3545'],
       borderColor: ['#28a745', '#dc3545'],
       borderWidth: 1

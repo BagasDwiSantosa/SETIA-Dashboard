@@ -1,0 +1,5 @@
+sentiment,topic_number,words,coherence_score
+positive,Topic 1,"bersih, parkir, luas, wangi, pula, layan, dan, minus, sering",0.9282697999994004
+positive,Topic 2,"dan, ramah, layan, di, yang, sakit, jadi, pakai, baik",0.9282697999994004
+negative,Topic 1,"ada, dokter, belum, tidak, sopan, tukang, santun, parkir, untuk",0.645459712665447
+negative,Topic 2,"pasien, layan, banget, saya, jam, yang, mundur, sama, bukan",0.645459712665447
